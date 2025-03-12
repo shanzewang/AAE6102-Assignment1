@@ -17,4 +17,6 @@ Phase 3: Precision Refinement (Fine Acquisition)
 This final phase refines the frequency estimate obtained during initial acquisition. Using the coarse code phase estimate from the previous phase, a 10-millisecond C/A code sequence (longCaCode) is generated. Code modulation is removed from the DC-removed signal segment (signal0DC) by correlating it with this locally generated code sequence, isolating the carrier component (xCarrier). A high-resolution FFT, with a length equal to the next power of 2 (at the least, 8 times larger than the length of longCaCode), is applied to xCarrier. Precise frequency bins (fftFreqBins) are calculated based on this FFT. The carrier frequency (acqResults.carrFreq) is then refined by locating the frequency bin corresponding to the peak magnitude in the high-resolution spectrum. The coarse code phase obtained in the initial search (acqResults.codePhase) is retained as the definitive code phase estimate.
 
 The result figures are shown as follows,
-![Cow4](https://github.com/shanzewang/AAE6102-Assignment1/tree/main/Task1-fig/acquisition result.png "Cow4") 
+
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task1-fig/acquisition%20result.png)
+
