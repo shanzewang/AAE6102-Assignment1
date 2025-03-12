@@ -20,3 +20,4 @@ The result figures are shown as follows,
 
 ![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task1-fig/acquisition%20result.png)
 
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task1-fig/skyplot.png)
