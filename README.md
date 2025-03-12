@@ -24,7 +24,11 @@ The result figures are shown as follows,
 
 Figure 1 is the result of acquisition results of opensky and urban dataset. Figure2 is the result of sky plot of opensky and urban dataset. More specifically, in the open sky dataset, satellite 16,22,26,27,31 can be acquired; while in the urban dataset, satellite 1,3,11,18 can be acquired. 
 
+![](https://img.shields.io/badge/状态-已完成-brightgreen)
+![](https://img.shields.io/badge/版本-1.0.0-blue)
+![](https://img.shields.io/badge/重要-警告-red)
 
-<font face="STCAIYUN">我是华文彩云</font>
-<font color=gray size=5>color=gray</font>
-<font color=#0099ff size=5 face="黑体">color=#0099ff size=5 face="黑体"</font>
+<span style="color:red">这是红色文字</span>
+<span style="color:#00ff00">这是绿色文字</span>
+<span style="color:rgb(0,0,255)">这是蓝色文字</span>
+
