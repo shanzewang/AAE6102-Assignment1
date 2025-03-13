@@ -213,7 +213,9 @@ The velocity determination employs a parallel WLS framework with Doppler measure
 This dual-component WLS implementation enables comprehensive receiver state determination, providing both positional coordinates and velocity vectors with appropriate weighting to maximize estimation accuracy under variable signal conditions.
 
 ### 4.2 Results Analysis
+
 **Open Sky Environment**
+
 The open sky positioning results show dramatically improved stability and accuracy:
 The coordinate variation plot displays much smaller fluctuations, with all components (East, North, and Up) varying within approximately ±20m range. The variations exhibit a more balanced pattern across all three components, indicating consistent satellite geometry and signal quality.
 The 2D and 3D position plots show a remarkably tighter clustering of measurement points around the mean position (Lat: 22°19'42.3835", Lng: 114°10'16.9629", Hgt: +5.7m). The measurement scatter is confined to approximately ±10m in horizontal components and ±30m in the vertical component, representing a precision improvement of roughly 20 times compared to the urban environment.
@@ -221,6 +223,7 @@ The 2D and 3D position plots show a remarkably tighter clustering of measurement
 ![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task4-fig/openskyall.png)
 
 **Urban Environment**
+
 The urban environment positioning results show significant coordinate variations and positional scatter:
 The coordinate variation plot displays substantial fluctuations, particularly in the East (E) component which varies by approximately ±250m. The Up (U) component shows variations of around ±100m, while the North (N) component exhibits more moderate variations of approximately ±50m. These large fluctuations indicate challenging signal conditions typical of urban canyons.
 The 2D and 3D position plots reveal considerable scatter in the measurement points around the mean position (Lat: 22°19'10.4142", Lng: 114°12'27.3914", Hgt: -33.9m). The measurements spread across a range of approximately ±200m in both East and North directions, with even greater variation in the Up component (±400m). This wide dispersion demonstrates the degraded positioning performance in urban environments.
@@ -228,3 +231,16 @@ The 2D and 3D position plots reveal considerable scatter in the measurement poin
 
 **Key Differences**
 The comparison between these environments illustrates how urban structures dramatically impact GNSS positioning performance. The urban scenario suffers from multipath effects, signal blockage, and reduced satellite visibility, resulting in positioning errors that are an order of magnitude larger than in open sky conditions. The open sky environment, with its unobstructed satellite view, produces significantly more precise and stable position estimates with a much smaller error distribution.
+
+
+## Task 5 – Kalman Filter-Based Positioning
+
+To enhance positioning accuracy, an Extended Kalman Filter (EKF) is developed using pseudorange and Doppler measurements. The EKF framework enables dynamic filtering and smoothing of the position and velocity estimates, leading to improved robustness against measurement noise and signal disturbances. The EKF implementation provides refined positioning results and demonstrates its advantages over the WLS approach in challenging environments.
+
+**EKF results in Open Sky:**
+
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task5-fig/openskyall.png)
+
+**EKF results in Urban:**
+
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task5-fig/urbanall.png)
