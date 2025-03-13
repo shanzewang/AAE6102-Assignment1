@@ -27,3 +27,30 @@ Figure 1 is the result of acquisition results of opensky and urban dataset. Figu
 ## Task 2 – Tracking
 
 ### Analysis of Tracking Performance Based on C/N₀
+
+![image]([https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task1-fig/skyplot.png](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task2-fig/CNo%20performance.png))
+
+Urban Environment (Top Row)
+The urban environment shows data for satellites PRN1, PRN3, PRN11, and PRN18:
+
+PRN1: C/N₀ values range approximately from 49-56 dB-Hz, with most measurements clustering around 52-53 dB-Hz. The signal shows considerable variation but maintains relatively strong values.
+PRN3: C/N₀ values range approximately from 41-50 dB-Hz, with most readings around 45-47 dB-Hz. The signal shows similar variability patterns to PRN1 but at slightly lower strength.
+PRN11: C/N₀ values range approximately from 25-45 dB-Hz, with a noticeable downward trend toward the end of the measurement period. This indicates significant signal degradation over time in the urban environment.
+PRN18: C/N₀ values range approximately from 20-40 dB-Hz, with a visible dip in the middle section of the measurements. This satellite shows the lowest overall signal strength in the urban setting.
+
+Open Sky Environment (Bottom Row)
+The open sky environment displays data for satellites PRN16, PRN22, PRN26, PRN27, and PRN31:
+
+PRN16: C/N₀ values stabilize around 35-40 dB-Hz after an initial higher reading, showing consistent but moderate signal strength.
+PRN22: C/N₀ values range approximately from 30-35 dB-Hz, following an initial higher reading. The signal maintains a relatively consistent pattern.
+PRN26: C/N₀ values remain stable around 35-38 dB-Hz, with some fluctuations but generally consistent performance.
+PRN27: C/N₀ values hover around 35-38 dB-Hz, showing similar characteristics to PRN26.
+PRN31: C/N₀ values range approximately from 34-38 dB-Hz, with frequent variations but maintaining a relatively consistent overall level.
+
+Comparative Analysis
+
+Urban satellites generally show higher maximum C/N₀ values but with greater variability compared to open sky satellites.
+PRN1 and PRN3 demonstrate the strongest signal performance overall, with consistently higher C/N₀ values.
+PRN11 shows concerning signal degradation over time, potentially indicating increasing obstruction or other environmental factors affecting reception.
+Open sky satellites demonstrate more consistent signal strength, albeit at generally lower levels than the peak urban measurements.
+The significant variations in the urban environment likely reflect signal multipath effects, signal blockage by buildings, and changing satellite geometries typical in urban canyons.
