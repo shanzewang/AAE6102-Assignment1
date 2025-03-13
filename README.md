@@ -28,7 +28,7 @@ Figure 1 is the result of acquisition results of opensky and urban dataset. Figu
 
 ### Analysis of Tracking Performance Based on C/N₀
 
-![image]([https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task1-fig/skyplot.png](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task2-fig/CNo%20performance.png))
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task2-fig/CNo%20performance.png)
 
 Urban Environment (Top Row)
 The urban environment shows data for satellites PRN1, PRN3, PRN11, and PRN18:
