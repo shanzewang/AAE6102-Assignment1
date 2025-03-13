@@ -26,7 +26,7 @@ Figure 1 is the result of acquisition results of opensky and urban dataset. Figu
 
 ## Task 2 – Tracking
 
-###2.1 Analysis of Tracking Performance Based on C/N₀
+### 2.1 Analysis of Tracking Performance Based on C/N₀
 
 ![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task2-fig/CNo%20performance.png)
 
@@ -55,7 +55,7 @@ PRN11 shows concerning signal degradation over time, potentially indicating incr
 Open sky satellites demonstrate more consistent signal strength, albeit at generally lower levels than the peak urban measurements.
 The significant variations in the urban environment likely reflect signal multipath effects, signal blockage by buildings, and changing satellite geometries typical in urban canyons.
 
-###2.2 Tracking result for opensky dataset
+### 2.2 Tracking result for opensky dataset
 
 ![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task2-fig/T2-Opensky.png)
 
@@ -70,7 +70,7 @@ The ACF forms a triangular-shaped correlation peak centered at zero code delay, 
 The smooth, symmetric shape of the correlation function indicates proper signal tracking performance with optimal alignment occurring at zero delay. This triangular ACF shape is characteristic of GNSS signal processing using typical spreading codes, showing the expected correlation properties between the received signal and the locally generated replica.
 The high correlation values and well-defined peak suggest strong signal quality and effective signal acquisition.
 
-###2.3 Tracking result for urban dataset
+### 2.3 Tracking result for urban dataset
 
 ![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task2-fig/T2-Urban.png)
 
@@ -89,3 +89,74 @@ PRN11 and PRN18 show particularly degraded performance in the urban setting with
 The urban multi-correlator ACF shows a significantly higher overall correlation magnitude (peaking near 11700 versus 3400 in open sky) and notably different shape. While the open sky ACF exhibited a clean triangular pattern, this urban ACF features asymmetry and irregularities, particularly visible in the right side of the curve around 0.2-0.3 code delay where a distinct plateau appears.
 
 This distortion in the correlation function suggests the presence of multipath signals in the urban environment. The plateau indicates secondary correlation peaks caused by signal reflections from buildings, which is a common challenge in urban GNSS reception. These reflections create overlapping correlation peaks that disrupt the ideal triangular shape seen in open sky conditions.
+
+
+## Task 3 – Navigation data decoding
+
+### 3.1 Processing steps
+
+**Initial Data Acquisition Phase**
+
+The methodology begins by collecting 1500 navigation signal samples from trackResults.I_P, encompassing five complete subframes (300 bits each, with 20 samples representing each bit). The starting point is determined by subFrameStart, with an additional 20-sample buffer for alignment purposes. This extensive sampling window (30 seconds) ensures comprehensive navigation message capture.
+
+**Signal Processing and Enhancement**
+
+The collected samples undergo matrix transformation into a 20-row configuration, where each row corresponds to a single bit representation. Column summation is then performed to generate composite bit values. This integration approach significantly improves signal quality by minimizing random noise interference, thereby enhancing the reliability of subsequent decoding operations.
+
+**Signal Digitization Protocol**
+
+A threshold-based algorithm converts the aggregated values into a binary representation. Positive sums are classified as "1" while non-positive values are designated as "0". This conversion step transforms analog-like measurements into the discrete binary format required for navigation message interpretation.
+Format Standardization
+The resulting binary array undergoes transformation via dec2bin functionality to create a standardized string array comprising exclusively "0" and "1" characters. This standardization ensures compatibility with the subsequent ephemeris extraction functions.
+
+**Navigation Parameter Extraction**
+
+The final phase employs specialized algorithms to analyze the 1500-bit sequence (five subframes) and extract critical navigation parameters including ephemeris elements and Time of Week from Subframe 1. The process uses navBitsBin(2:1501) as primary data with navBitsBin(1) serving as a validation reference, ultimately generating a comprehensive ephemeris structure and precise timing information essential for accurate positioning calculations.
+
+### 3.2 Results analysis
+
+**Amplitude Differences:**
+The most striking difference is the amplitude scale. Urban satellites (PRN1, PRN3, PRN11, PRN18) display significantly lower amplitude ranges (approximately ±2 to ±4) compared to open sky satellites (PRN16, PRN22, PRN26, PRN27, PRN31) which consistently show amplitudes of approximately ±5000.
+
+**Signal Consistency:**
+Urban environment signals show gradual degradation in amplitude and increased noise, particularly evident in PRN11 and PRN18, where the bit transitions appear less distinct toward the end of the measurement period.
+
+**Bit Pattern Clarity:**
+Open sky satellites demonstrate remarkably consistent navigation message bit patterns with clear transitions between bits. The transitions are sharp and well-defined across the entire 40-second interval for all satellites.
+
+**Signal Quality:**
+PRN1 in the urban environment shows the strongest and most consistent bit transitions among urban satellites, while PRN11 and PRN18 show the weakest signal quality with less defined bit edges.
+
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task3-fig/bitsall.png)
+
+# Comparative Ephemeris Data: Urban vs. Open-Sky Satellites
+
+| Ephemeris Parameter | Meaning | **Urban Environment** ||||  **Open-Sky Environment** ||||
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | | PRN-1 | PRN-3 | PRN-11 | PRN-18 | PRN-16 | PRN-22 | PRN-26 | PRN-31 |
+| C_ic | Cosine-harmonic-correction-to-inclination (rad) | -7.4506e-08 | 1.1176e-08 | -3.1665e-07 | 2.5332e-07 | -1.0058e-07 | -1.0058e-07 | -2.0489e-08 | -1.1362e-07 |
+| omega_0 | Right ascension at reference time (rad) | -3.1060 | -2.0642 | 2.7258 | 3.1218 | -1.6743 | 1.2727 | -1.8129 | -2.7873 |
+| C_is | Sine-harmonic-correction-to-inclination (rad) | 1.6019e-07 | 5.2154e-08 | -1.3225e-07 | 3.5390e-08 | 1.3597e-07 | -9.3132e-08 | 8.9407e-08 | -5.0291e-08 |
+| i_0 | Inclination at reference time (rad) | 0.9761 | 0.9629 | 0.9008 | 0.9546 | 0.9716 | 0.9365 | 0.9399 | 0.9559 |
+| C_rc | Cosine-harmonic-correction-to-orbit-radius (m) | 287.4688 | 160.3125 | 324.4063 | 280.1563 | 237.6875 | 266.3438 | 234.1875 | 240.1563 |
+| omega | Argument of perigee (rad) | 0.7115 | 0.5950 | 1.8915 | 1.3930 | 0.6796 | -0.8879 | 0.2957 | 0.3116 |
+| omegaDot | Rate of right ascension (rad/s) | -8.1696e-09 | -7.8325e-09 | -9.3043e-09 | -8.6107e-09 | -8.0128e-09 | -8.6686e-09 | -8.3114e-09 | -7.9950e-09 |
+| IODE_sf3 | Issue of Data, Ephemeris (Subframe 3) | 72 | 72 | 83 | 56 | 9 | 22 | 113 | 83 |
+| IDot | Rate of inclination (rad/s) | -1.8108e-10 | 4.8109e-10 | -1.2858e-11 | -1.6179e-10 | -4.8931e-10 | -3.0358e-11 | -4.1752e-10 | -3.2144e-11 |
+| WeekNumber | GPS-week number | 1032 | 1032 | 1032 | 1032 | 1155 | 1155 | 1155 | 1155 |
+| T_GD | Satellite clock correction (s) | 5.5879e-09 | 1.8626e-09 | -1.2573e-08 | 5.5879e-09 | -1.0245e-08 | -1.7695e-08 | 6.9849e-09 | -1.3039e-08 |
+| IODC | Issue of Data, Clock | 12 | 4 | 229 | 244 | 234 | 218 | 15 | 228 |
+| t_oc | Clock reference time (s) | 453600 | 453600 | 453600 | 453600 | 396000 | 396000 | 396000 | 396000 |
+| a_f1 | Clock drift linear term (s/s) | -9.4360e-12 | -1.1369e-12 | 8.5265e-12 | 3.1832e-12 | -6.3665e-12 | 9.2086e-12 | 3.9790e-12 | -1.9327e-12 |
+| a_f0 | Clock bias (s) | -1.2087 | 1.8633e-04 | -5.9009e-04 | 9.8655e-05 | -4.0693e-04 | -4.8947e-04 | 1.4479e-04 | -1.4490e-04 |
+| IODE_sf2 | Issue of Data, Ephemeris (Subframe 2) | 72 | 72 | 83 | 56 | 9 | 22 | 113 | 83 |
+| C_rs | Sine-harmonic-correction-to-orbit-radius (m) | -120.7188 | -62.0938 | -67.1250 | -113.8750 | 23.3438 | -99.8125 | 21.2500 | 30.7188 |
+| delta_n | Mean motion correction (rad/s) | N/A | N/A | N/A | N/A | 4.2466e-09 | 5.2831e-09 | 5.0513e-09 | 4.8073e-09 |
+| M_0 | Mean anomaly at reference time (rad) | 0.5179 | -0.4304 | -0.1989 | 0.2598 | 0.7181 | -1.2610 | 1.7356 | 2.8245 |
+| C_uc | Cosine-harmonic-correction-to-latitude (rad) | 8.6149e-06 | 3.9066e-06 | 3.6042e-06 | 6.1095e-06 | 1.3895e-06 | -5.1558e-06 | 1.1530e-06 | 1.4603e-06 |
+| e | Eccentricity | 0.0089 | 0.0022 | 0.0166 | 0.0154 | 0.0123 | 0.0067 | 0.0063 | 0.0103 |
+| C_us | Sine-harmonic-correction-to-latitude (rad) | 5.3031e-06 | 3.9066e-06 | 1.5123e-06 | 5.1148e-06 | 7.6871e-06 | 5.1651e-06 | 7.0408e-06 | 7.2289e-06 |
+| sqrtA | Square-root-of-semi-major-axis (m^(1/2)) | 5153.7e+03 | 5153.8e+03 | 5153.7e+03 | 5153.7e+03 | 5.1538e+03 | 5.1537e+03 | 5.1536e+03 | 5.1536e+03 |
+| t_oe | Ephemeris reference time (s) | 453600 | 453600 | 453600 | 453600 | 396000 | 396000 | 396000 | 396000 |
+
+**Note:** The delta_n parameter (Mean motion correction) is not available in the urban environment dataset.
