@@ -160,3 +160,71 @@ PRN1 in the urban environment shows the strongest and most consistent bit transi
 | t_oe | Ephemeris reference time (s) | 453600 | 453600 | 453600 | 453600 | 396000 | 396000 | 396000 | 396000 |
 
 **Note:** The delta_n parameter (Mean motion correction) is not available in the urban environment dataset.
+
+
+## Task 4 – Position and Velocity Estimation
+
+### 4.1 Processing steps
+
+**Theoretical Framework**
+
+The Weighted Least Squares (WLS) approach represents a sophisticated mathematical technique for determining receiver coordinates and velocity vectors in Global Navigation Satellite Systems (GNSS). This methodology optimizes the solution by minimizing weighted residuals between observed and predicted measurements, thereby accounting for variable observation quality across different satellite signals.
+
+**Position Determination Algorithm**
+
+In the positioning component, pseudorange observations (ρ_obs) follow the mathematical model:
+
+ρ_obs = ||r_sat - r_rec|| + c·dt + ε
+
+Where:
+- r_sat represents satellite position coordinates
+- r_rec represents receiver position coordinates
+- dt denotes receiver clock bias
+- c is the speed of light constant
+- ε encompasses measurement noise and other error sources
+
+The state vector x = [x, y, z, dt]^T undergoes iterative refinement through the solution of:
+
+x = (A^T·W·A)^(-1)·A^T·W·b
+
+Implementation specifics include:
+- Satellite elevation-dependent weighting using a sinusoidal model: weight(i) = sin²(el(i))
+- Diagonal weight matrix construction: W = diag(weight)
+- Geometric transformation: C = W'·W
+- Solution computation: x = (A'·C·A)\\(A'·C·omc)
+
+Where omc represents the observed-minus-computed measurements vector.
+
+**Velocity Estimation Process**
+
+The velocity determination employs a parallel WLS framework with Doppler measurements. The procedure involves:
+
+1. Wavelength calculation using the carrier frequency: λ = c/1575.42×10^6
+2. Range rate conversion: rate = -λ·doppler
+3. Adjustment for satellite motion: rate = rate'
+4. Residual vector construction:
+   ```
+   For i = 1 to numberOfSatellites
+       b(i) = rate(i) - satVelocity(i,:)·(A(i,1:3))'
+   End
+   ```
+5. Velocity solution computation: v = (A'·C·A)\\(A'·C·b')
+
+This dual-component WLS implementation enables comprehensive receiver state determination, providing both positional coordinates and velocity vectors with appropriate weighting to maximize estimation accuracy under variable signal conditions.
+
+### 4.2 Results Analysis
+**Open Sky Environment**
+The open sky positioning results show dramatically improved stability and accuracy:
+The coordinate variation plot displays much smaller fluctuations, with all components (East, North, and Up) varying within approximately ±20m range. The variations exhibit a more balanced pattern across all three components, indicating consistent satellite geometry and signal quality.
+The 2D and 3D position plots show a remarkably tighter clustering of measurement points around the mean position (Lat: 22°19'42.3835", Lng: 114°10'16.9629", Hgt: +5.7m). The measurement scatter is confined to approximately ±10m in horizontal components and ±30m in the vertical component, representing a precision improvement of roughly 20 times compared to the urban environment.
+
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task4-fig/openskyall.png)
+
+**Urban Environment**
+The urban environment positioning results show significant coordinate variations and positional scatter:
+The coordinate variation plot displays substantial fluctuations, particularly in the East (E) component which varies by approximately ±250m. The Up (U) component shows variations of around ±100m, while the North (N) component exhibits more moderate variations of approximately ±50m. These large fluctuations indicate challenging signal conditions typical of urban canyons.
+The 2D and 3D position plots reveal considerable scatter in the measurement points around the mean position (Lat: 22°19'10.4142", Lng: 114°12'27.3914", Hgt: -33.9m). The measurements spread across a range of approximately ±200m in both East and North directions, with even greater variation in the Up component (±400m). This wide dispersion demonstrates the degraded positioning performance in urban environments.
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task4-fig/urbanall.png)
+
+**Key Differences**
+The comparison between these environments illustrates how urban structures dramatically impact GNSS positioning performance. The urban scenario suffers from multipath effects, signal blockage, and reduced satellite visibility, resulting in positioning errors that are an order of magnitude larger than in open sky conditions. The open sky environment, with its unobstructed satellite view, produces significantly more precise and stable position estimates with a much smaller error distribution.
