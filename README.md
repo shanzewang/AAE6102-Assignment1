@@ -237,10 +237,6 @@ The comparison between these environments illustrates how urban structures drama
 
 To enhance positioning accuracy, an Extended Kalman Filter (EKF) is developed using pseudorange and Doppler measurements. The EKF framework enables dynamic filtering and smoothing of the position and velocity estimates, leading to improved robustness against measurement noise and signal disturbances. The EKF implementation provides refined positioning results and demonstrates its advantages over the WLS approach in challenging environments.
 
-**EKF results in Open Sky:**
+**EKF results in Open Sky and Urban dataset:**
 
-![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task5-fig/openskyall.png)
-
-**EKF results in Urban:**
-
-![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task5-fig/urbanall.png)
+![image](https://github.com/shanzewang/AAE6102-Assignment1/blob/main/Task5-fig/all.png)
